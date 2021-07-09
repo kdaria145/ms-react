@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Switch, Link} from 'react-router-dom';
 import Catalog from './pages/Catalog';
 import ShoppingCart from './pages/ShoppingCart';
 import PlaceOrder from './pages/PlaceOrder';
-import './scss/app.scss';
 import cartIcon from './img/cart.png';
 import {Image, Nav, Navbar} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
