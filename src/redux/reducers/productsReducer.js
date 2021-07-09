@@ -24,7 +24,7 @@ export const productsReducer = (state = initialState, action) => {
         case REMOVE_FROM_CART:
             return {...state, cart: state.cart.filter(p => p.id !== action.payload)}
         case CLEAR_CART:
-            return {...state, cart: {}}
+            return {...state, cart: []}
         case CHANGE_CURRENT_CATEGORY:
             return {...state, currentCategory: action.payload}
         case FILTER_PRODUCTS:
