@@ -5,7 +5,8 @@
 Интернет магазин
 
 Чтобы запустить проект:
-git pull <ссылка на мой репозиторий>
-git checkout test
-npm install
-npm start
+## Установка
+`npm i` ИЛИ `yarn`
+
+## Запуск
+`npm start` ИЛИ `yarn start`
