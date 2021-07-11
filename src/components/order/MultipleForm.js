@@ -26,10 +26,14 @@ const MultipleForm = () => {
             )
         case 4:
             return (
-                <Container>
+                <Container>K
                     <h1>{customer.name}, thank you for the order!</h1>
                     <Nav.Link as={Link} to="/" onClick={(e) => dispatch(clearCart())}>To catalog</Nav.Link>
                 </Container>
+            )
+        default:
+            return (
+                <Container/>
             )
     }
 }
