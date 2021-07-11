@@ -11,7 +11,7 @@ const initialState = {
     products: [],
     filteredProducts: [],
     cart: [],
-    categories: ["all", "'men's clothing'", "'women's clothing'", "jewelery", "electronics"],
+    categories: ["all", "men's clothing", "women's clothing", "jewelery", "electronics"],
     currentCategory: "all"
 }
 
