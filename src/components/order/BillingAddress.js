@@ -1,22 +1,25 @@
 import React, {useState} from "react";
 import {Button, Container, Form} from "react-bootstrap";
 import MapComponent from "./MapComponent";
-import {changeBillingAddressInformation, nextProgressStep} from "../../redux/actions";
+import {changeBillingAddressInformation, nextProgressStep} from "../../store/products/actions/actions";
 import {useDispatch, useSelector} from "react-redux";
 
 const CustomerInformation = () => {
-    const [address, setAddress] = useState({});
     const [hasFlat, setHasFlat] = useState(true);
     const billingAddress = useSelector(state => state.order.orderInformation.billingAddress);
     const dispatch = useDispatch();
+    const [address, setAddress] = useState(billingAddress);
 
-    const changeHandler = (e, changedField) => {
-        setAddress({...address, [changedField]: e.target.value})
+    const changeHandler = changedField => e => {
+        setAddress({
+            ...address,
+            [changedField]: e.target.value
+        });
     }
 
-    const submitHandler = (e) => {
-        dispatch(changeBillingAddressInformation(address))
-        dispatch(nextProgressStep())
+    const submitHandler = () => {
+        dispatch(changeBillingAddressInformation(address));
+        dispatch(nextProgressStep());
     }
 
     return (
@@ -27,9 +30,8 @@ const CustomerInformation = () => {
                         required
                         type="text"
                         placeholder="Country"
-                        value={address.country ? address.country :
-                            billingAddress.country ? billingAddress.country : ''}
-                        onChange={(e) => changeHandler(e, 'country')}
+                        value={address.country}
+                        onChange={changeHandler("country")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formCity">
@@ -37,9 +39,8 @@ const CustomerInformation = () => {
                         required
                         type="text"
                         placeholder="City"
-                        value={address.city ? address.city :
-                            billingAddress.city ? billingAddress.city : ''}
-                        onChange={(e) => changeHandler(e, 'city')}
+                        value={address.city}
+                        onChange={changeHandler("city")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formStreet">
@@ -47,9 +48,8 @@ const CustomerInformation = () => {
                         required
                         type="text"
                         placeholder="Street"
-                        value={address.street ? address.street :
-                            billingAddress.street ? billingAddress.street : ''}
-                        onChange={(e) => changeHandler(e, 'street')}
+                        value={address.street}
+                        onChange={changeHandler("street")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formHouse">
@@ -57,9 +57,8 @@ const CustomerInformation = () => {
                         required
                         type="text"
                         placeholder="House"
-                        value={address.house ? address.house :
-                            billingAddress.house ? billingAddress.house : ''}
-                        onChange={(e) => changeHandler(e, 'house')}
+                        value={address.house}
+                        onChange={changeHandler("house")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formFlat">
@@ -67,14 +66,14 @@ const CustomerInformation = () => {
                         required={hasFlat}
                         type="text"
                         placeholder="Flat"
-                        onChange={(e) => changeHandler(e, 'flat')}
+                        onChange={changeHandler("flat")}
                     />
                 </Form.Group>
                 <Form.Group>
                     <Form.Check
                         type="checkbox"
                         label="There are no apartments in my house"
-                        onChange={(e) => setHasFlat(!hasFlat)}
+                        onChange={() => setHasFlat(!hasFlat)}
                     />
                 </Form.Group>
                 <Button
@@ -84,10 +83,11 @@ const CustomerInformation = () => {
                     Submit
                 </Button>
             </Form>
+
             <h4>Select an address on the map</h4>
             <MapComponent setAddress={setAddress}/>
         </Container>
 
     )
 }
-export default CustomerInformation
+export default CustomerInformation;

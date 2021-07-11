@@ -1,21 +1,17 @@
 import React, {useState} from "react";
 import {Button, Card, Collapse, Image} from "react-bootstrap";
 import {useDispatch} from "react-redux";
-import {removeFromCart} from "../../redux/actions";
-import removeIcon from '../../img/remove-from-cart.png';
+import {removeFromCart} from "../../store/products/actions/actions";
+import removeIcon from "../../img/remove-from-cart.png";
 
-function CartProduct({product}) {
+const CartProduct = ({product}) => {
     const [isDescriptionOpen, setDescriptionOpen] = useState(false);
     const dispatch = useDispatch();
     return (
-        <Card border="secondary" style={{minWidth: '200px', maxWidth: '200px'}}>
+        <Card border="secondary" className="product_card cart">
             <Card.Header>
                 <Button
-                    style={{
-                        float: 'right',
-                        background: 'transparent',
-                        border: 'transparent'
-                    }}
+                    className="product_remove"
                     onClick={() => dispatch(removeFromCart(product.id))}
                 >
                     <Image
@@ -26,13 +22,15 @@ function CartProduct({product}) {
                         alt="Remove product from cart"
                     ></Image>
                 </Button>
-                <Card.Img width={180}
-                          height={180}
-                          variant="top" src={product.image}/>
+                <Card.Img
+                    width={180}
+                    height={180}
+                    variant="top" src={product.image}
+                />
             </Card.Header>
             <Card.Body>
                 <Card.Title>{product.title}</Card.Title>
-                <Card.Subtitle style={{padding: '10px 0'}}>
+                <Card.Subtitle className="product_subtitle">
                     {product.price} &#36;
                 </Card.Subtitle>
                 <Card.Text>
@@ -42,9 +40,9 @@ function CartProduct({product}) {
             <Card.Footer>
                 <Button
                     variant="warning"
-                    onClick={() => setDescriptionOpen(!isDescriptionOpen)}
                     aria-controls="description-text"
                     aria-expanded={isDescriptionOpen}
+                    onClick={() => setDescriptionOpen(!isDescriptionOpen)}
                 >
                     Product description
                 </Button>
@@ -58,4 +56,4 @@ function CartProduct({product}) {
     )
 }
 
-export default CartProduct
+export default CartProduct;

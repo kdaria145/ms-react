@@ -1,55 +1,50 @@
 import React, {useRef} from "react";
 import {YMaps, Map} from "react-yandex-maps";
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 
 const mapState = {
     center: [55.753994, 37.622093],
     zoom: 100
 };
 
-function MapComponent({setAddress}) {
+const MapComponent = ({setAddress}) => {
     const ymaps = useRef(null);
     const placemarkRef = useRef(null);
     const mapRef = useRef(null);
 
-    const createPlacemark = (coords) => {
-        return new ymaps.current.Placemark(
-            coords,
-            {
-                draggable: true
-            }
-        );
-    };
+    const createPlacemark = coords => new ymaps.current.Placemark(coords, {draggable: true});
 
-    const getAddress = (coords) => {
-        ymaps.current.geocode(coords).then((res) => {
-            const firstGeoObject = res.geoObjects.get(0);
-            const newAddress = firstGeoObject.getCountry() && firstGeoObject.getLocalities() && firstGeoObject.getThoroughfare() && firstGeoObject.getPremiseNumber() ? {
-                country: firstGeoObject.getCountry(),
-                city: firstGeoObject.getLocalities(),
-                street: firstGeoObject.getThoroughfare(),
-                house: firstGeoObject.getPremiseNumber()
-            } : '';
-            const newAddressLine = firstGeoObject.getAddressLine();
+    const getAddress = coords => {
+        ymaps.current.geocode(coords)
+            .then(res => {
+                const firstGeoObject = res.geoObjects.get(0);
 
-            setAddress(newAddress);
+                const newAddress = firstGeoObject.getCountry() && firstGeoObject.getLocalities() && firstGeoObject.getThoroughfare() && firstGeoObject.getPremiseNumber() ? {
+                    country: firstGeoObject.getCountry(),
+                    city: firstGeoObject.getLocalities(),
+                    street: firstGeoObject.getThoroughfare(),
+                    house: firstGeoObject.getPremiseNumber()
+                } : "";
+                const newAddressLine = firstGeoObject.getAddressLine();
 
-            placemarkRef.current.properties.set({
-                iconCaption: newAddressLine
+                setAddress(newAddress);
+
+                placemarkRef.current.properties.set({
+                    iconCaption: newAddressLine
+                });
             });
-        });
     };
 
-    const onMapLoad = (ympasInstance) => {
+    const onMapLoad = ympasInstance => {
         ympasInstance.geolocation.get({
-            provider: 'yandex',
+            provider: "yandex",
             mapStateAutoApply: true
-        }).then(function (result) {
+        }).then(result => {
             mapRef.current.geoObjects.add(result.geoObjects);
         });
         ymaps.current = ympasInstance;
-
     }
+
     const onMapClick = (e) => {
         const coords = e.get("coords");
 
@@ -58,7 +53,7 @@ function MapComponent({setAddress}) {
         } else {
             placemarkRef.current = createPlacemark(coords);
             mapRef.current.geoObjects.add(placemarkRef.current);
-            placemarkRef.current.events.add("dragend", function () {
+            placemarkRef.current.events.add("dragend", () => {
                 getAddress(placemarkRef.current.geometry.getCoordinates());
             });
         }
@@ -66,7 +61,7 @@ function MapComponent({setAddress}) {
     };
 
     return (
-        <YMaps query={{apikey: '42a090c0-2a78-4790-b1c1-55316ca180cc'}}>
+        <YMaps query={{apikey: "42a090c0-2a78-4790-b1c1-55316ca180cc"}}>
             <Map
                 modules={["Placemark", "geocode", "geoObject.addon.balloon", "geolocation"]}
                 instanceRef={mapRef}
@@ -81,6 +76,6 @@ function MapComponent({setAddress}) {
 
 MapComponent.propTypes = {
     setAddress: PropTypes.func.isRequired
-}
+};
 
-export default MapComponent
+export default MapComponent;

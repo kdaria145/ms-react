@@ -1,10 +1,10 @@
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeCurrentCategory, filterProducts} from "../../redux/actions";
+import {changeCurrentCategory, filterProducts} from "../../store/products/actions/actions";
 import Product from "./Product";
 import {CardColumns, Container, DropdownButton, Spinner, Dropdown, ButtonGroup} from "react-bootstrap";
 
-function Products() {
+const Products = () => {
     const dispatch = useDispatch();
     const products = useSelector(state => state.products.filteredProducts);
     const categories = useSelector(state => state.products.categories);
@@ -13,19 +13,18 @@ function Products() {
     if (loading) {
         return <Spinner animation="border" variant="warning"/>
     }
-    const onSelectCategory = (e) => {
-        dispatch(changeCurrentCategory(e));
+    const onSelectCategory = (categoryName) => {
+        dispatch(changeCurrentCategory(categoryName));
         dispatch(filterProducts());
     }
     return (
         <Container>
             <DropdownButton
-                variant="warning"
-                id="dropdown-category"
-                title={currentCategory}
                 as={ButtonGroup}
-                onSelect={(e) => onSelectCategory(e)}
-                style={{paddingBottom: '20px'}}
+                className="category_dropdown"
+                variant="warning"
+                title={currentCategory}
+                onSelect={onSelectCategory}
             >
                 {categories.map(category => {
                     return (
@@ -42,4 +41,4 @@ function Products() {
     )
 }
 
-export default Products
+export default Products;

@@ -3,28 +3,23 @@ import {Button, Container, Form} from "react-bootstrap";
 import Cards from 'react-credit-cards';
 import 'react-credit-cards/es/styles-compiled.css';
 import {useDispatch, useSelector} from "react-redux";
-import {changePaymentInformation, nextProgressStep} from "../../redux/actions";
+import {changePaymentInformation, nextProgressStep} from "../../store/products/actions/actions";
 import InputMask from "react-input-mask";
 
 const Checkout = () => {
     const dispatch = useDispatch();
     const creditCard = useSelector(state => state.order.orderInformation.creditCard);
-    const [creditCardState, setCreditCardState] = useState({
-        cvc: creditCard.cvc || '',
-        expiry: creditCard.expiry || '',
-        name: creditCard.name || '',
-        number: creditCard.number || '',
-    });
+    const [creditCardState, setCreditCardState] = useState(creditCard);
 
     const formatterCartNumber = (e) => {
         setCreditCardState({...creditCardState, number: e.target.value.trim()});
     }
 
-    const changeHandler = (e, changedField) => {
+    const changeHandler = changedField => e => {
         setCreditCardState({...creditCardState, [changedField]: e.target.value});
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = () => {
         dispatch(nextProgressStep());
         dispatch(changePaymentInformation(creditCardState));
     }
@@ -32,10 +27,10 @@ const Checkout = () => {
     return (
         <Container>
             <Cards
-                cvc={creditCardState.cvc || ''}
-                expiry={creditCardState.expiry || ''}
-                name={creditCardState.name || ''}
-                number={creditCardState.number || ''}
+                cvc={creditCardState.cvc || ""}
+                expiry={creditCardState.expiry || ""}
+                name={creditCardState.name || ""}
+                number={creditCardState.number || ""}
             />
             <Form onSubmit={submitHandler}>
                 <Form.Group controlId="formNumber">
@@ -47,7 +42,7 @@ const Checkout = () => {
                         maskChar={null}
                         name="number"
                         placeholder="Card Number"
-                        value={creditCardState.number ? creditCardState.number : ''}
+                        value={creditCardState.number}
                         onChange={formatterCartNumber}
                     />
                 </Form.Group>
@@ -57,8 +52,8 @@ const Checkout = () => {
                         type="text"
                         name="name"
                         placeholder="Card Holders"
-                        value={creditCardState.name ? creditCardState.name : ''}
-                        onChange={(e) => changeHandler(e, 'name')}
+                        value={creditCardState.name}
+                        onChange={changeHandler("name")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formExpiry">
@@ -69,8 +64,8 @@ const Checkout = () => {
                         type="text"
                         name="number"
                         placeholder="Expiration Date"
-                        value={creditCardState.expiry ? creditCardState.expiry : ''}
-                        onChange={(e) => changeHandler(e, 'expiry')}
+                        value={creditCardState.expiry}
+                        onChange={changeHandler("expiry")}
                     />
                 </Form.Group>
                 <Form.Group controlId="formCVC">
@@ -81,8 +76,8 @@ const Checkout = () => {
                         type="text"
                         name="cvc"
                         placeholder="CVC"
-                        value={creditCardState.cvc ? creditCardState.cvc : ''}
-                        onChange={(e) => changeHandler(e, 'cvc')}
+                        value={creditCardState.cvc}
+                        onChange={changeHandler("cvc")}
                     />
                 </Form.Group>
 
@@ -96,4 +91,4 @@ const Checkout = () => {
         </Container>
     )
 }
-export default Checkout
+export default Checkout;

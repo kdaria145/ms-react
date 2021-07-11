@@ -3,21 +3,34 @@ import {
     CHANGE_CUSTOMER_INFORMATION, CHANGE_PAYMENT_INFORMATION,
     NEXT_PROGRESS_STEP,
     PREV_PROGRESS_STEP
-} from "../types";
+} from "../types/types";
 
 const initialState = {
     progressSteps: [
-        {step: 1, label: 'Customer information', done: true},
-        {step: 2, label: 'Checkout', done: false},
-        {step: 3, label: 'Billing address', done: false}
+        {id: 1, label: "Customer information"},
+        {id: 2, label: "Checkout"},
+        {id: 3, label: "Billing address"}
     ],
     currentStep: 1,
     disableNextButton: false,
     disablePrevButton: true,
     orderInformation: {
-        customer: {},
-        creditCard: {},
-        billingAddress: {}
+        customer: {
+            name: "",
+            surname: ""
+        },
+        creditCard: {
+            number: "",
+            name: "",
+            expiry: "",
+            cvc: ""
+        },
+        billingAddress: {
+            country: "",
+            city: "",
+            house: "",
+            flat: ""
+        }
     }
 }
 
@@ -26,31 +39,19 @@ export const orderReducer = (state = initialState, action) => {
         case NEXT_PROGRESS_STEP:
             return {
                 ...state,
-                currentStep: state.currentStep + 1,
-                progressSteps: state.progressSteps.map(step => {
-                    if (step.step === (state.currentStep + 1)) {
-                        step.done = true
-                    }
-                    return step
-                })
+                currentStep: state.currentStep + 1
             }
         case PREV_PROGRESS_STEP:
             return {
                 ...state,
-                currentStep: state.currentStep - 1,
-                progressSteps: state.progressSteps.map(step => {
-                    if (step.step === (state.currentStep)) {
-                        step.done = false
-                    }
-                    return step
-                })
+                currentStep: state.currentStep - 1
             }
         case CHANGE_CUSTOMER_INFORMATION:
             return {
                 ...state,
                 orderInformation: {
                     ...state.orderInformation,
-                    customer: Object.assign(state.orderInformation.customer, action.payload)
+                    customer: {...state.orderInformation.customer, ...action.payload}
                 }
             }
         case CHANGE_BILLING_ADDRESS_INFORMATION:

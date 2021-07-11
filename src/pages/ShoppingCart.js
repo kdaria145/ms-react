@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 import CartProduct from "../components/cart/CartProduct";
 
-function ShoppingCart() {
+const ShoppingCart = () => {
     const cart = useSelector(state => state.products.cart)
     if (!cart.length) {
         return <h4>Cart is empty</h4>
@@ -17,6 +17,6 @@ function ShoppingCart() {
             </CardDeck>
         </Container>
     )
-}
+};
 
-export default ShoppingCart
+export default ShoppingCart;

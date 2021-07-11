@@ -3,16 +3,16 @@ import Products from "../components/catalog/Products";
 import {Container} from "react-bootstrap";
 import {useSelector} from "react-redux";
 
-function ShoppingCart () {
+const ShoppingCart = () => {
     const loading = useSelector(state => state.view.loading);
     return (
-        <Container style={{
-            textAlign: loading ? 'center' : 'inherit',
-            paddingTop: loading ? '20%' : '0'
-        }}>
+        <Container
+            className={
+                loading ? "loading" : ""
+            }>
             <Products/>
         </Container>
     )
 }
 
-export default ShoppingCart
+export default ShoppingCart;

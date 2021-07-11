@@ -6,7 +6,8 @@ import PlaceOrder from './pages/PlaceOrder';
 import cartIcon from './img/cart.png';
 import {Image, Nav, Navbar} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {fetchProducts} from "./redux/actions";
+import {fetchProducts} from "./store/products/actions/actions";
+import './App.scss'
 
 function App() {
     const cart = useSelector(state => state.products.cart)
@@ -40,7 +41,7 @@ function App() {
                                 />
                                 <h3
                                     style={{
-                                        display: cart.length ? 'initial' : 'none'
+                                        display: cart.length ? "initial" : "none"
                                     }}
                                 >
                                     {cart.length}
@@ -50,17 +51,17 @@ function App() {
                     </Navbar>
                     <Switch>
                         <Route
-                            path={'/'}
+                            path={"/"}
                             exact
                             component={Catalog}
                         />
                         <Route
-                            path={'/cart'}
+                            path={"/cart"}
                             exact
                             component={ShoppingCart}
                         />
                         <Route
-                            path={'/order'}
+                            path={"/order"}
                             exact
                             component={PlaceOrder}
                         />

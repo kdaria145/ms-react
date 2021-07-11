@@ -5,14 +5,14 @@ import {
     FETCH_PRODUCTS,
     FILTER_PRODUCTS,
     REMOVE_FROM_CART
-} from "../types";
+} from "../types/types";
 
 const initialState = {
     products: [],
     filteredProducts: [],
     cart: [],
-    categories: ['all', 'men\'s clothing', 'women\'s clothing', 'jewelery', 'electronics'],
-    currentCategory: 'all'
+    categories: ["all", "'men's clothing'", "'women's clothing'", "jewelery", "electronics"],
+    currentCategory: "all"
 }
 
 export const productsReducer = (state = initialState, action) => {
@@ -20,7 +20,10 @@ export const productsReducer = (state = initialState, action) => {
         case FETCH_PRODUCTS:
             return {...state, products: action.payload, filteredProducts: action.payload}
         case ADD_TO_CART:
-            return {...state, cart: state.cart.concat([action.payload])}
+            return {
+                ...state,
+                cart: state.cart.includes(action.payload) ? state.cart : state.cart.concat([action.payload])
+            }
         case REMOVE_FROM_CART:
             return {...state, cart: state.cart.filter(p => p.id !== action.payload)}
         case CLEAR_CART:
@@ -30,7 +33,7 @@ export const productsReducer = (state = initialState, action) => {
         case FILTER_PRODUCTS:
             return {
                 ...state,
-                filteredProducts: state.products.filter(p => state.currentCategory === 'all' ? true : p.category === state.currentCategory)
+                filteredProducts: state.products.filter(p => state.currentCategory === "all" ? true : p.category === state.currentCategory)
             }
         default:
             return state

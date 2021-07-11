@@ -11,12 +11,12 @@ import {
     CHANGE_CUSTOMER_INFORMATION,
     CHANGE_BILLING_ADDRESS_INFORMATION,
     CHANGE_PAYMENT_INFORMATION, CLEAR_CART
-} from "./types";
+} from "../types/types";
 
 export function fetchProducts() {
     return async dispatch => {
         dispatch({type: SHOW_LOADER})
-        const response = await fetch('https://fakestoreapi.com/products')
+        const response = await fetch("https://fakestoreapi.com/products")
         const json = await response.json()
         dispatch({type: FETCH_PRODUCTS, payload: json})
         dispatch({type: HIDE_LOADER})

@@ -1,18 +1,21 @@
 import React from "react";
 import {Button, Card} from "react-bootstrap";
 import {useDispatch} from "react-redux";
-import {addToCart} from "../../redux/actions";
+import {addToCart} from "../../store/products/actions/actions";
 
-function Product({product}) {
+const Product = ({product}) => {
     const dispatch = useDispatch();
     return (
-        <Card border="secondary" style={{minWidth: '10rem'}}>
+        <Card
+            border="secondary"
+            className="product_card"
+        >
             <Card.Header>
                 <Card.Img variant="top" src={product.image}/>
             </Card.Header>
             <Card.Body>
                 <Card.Title>{product.title}</Card.Title>
-                <Card.Subtitle style={{padding: '10px 0'}}>
+                <Card.Subtitle className="product_subtitle">
                     {product.price} &#36;
                 </Card.Subtitle>
             </Card.Body>
@@ -27,4 +30,4 @@ function Product({product}) {
     )
 }
 
-export default Product
+export default Product;

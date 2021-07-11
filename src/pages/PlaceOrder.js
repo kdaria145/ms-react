@@ -2,12 +2,12 @@ import React from "react";
 import {Button, Container, ProgressBar} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import MultipleForm from "../components/order/MultipleForm";
-import {prevProgressStep} from "../redux/actions";
+import {prevProgressStep} from "../store/products/actions/actions";
 
-function ShoppingCart() {
-    const progressSteps = useSelector(state => state.order.progressSteps)
-    const currentStep = useSelector(state => state.order.currentStep)
-    const dispatch = useDispatch()
+const PlaceOrder = () => {
+    const progressSteps = useSelector(state => state.order.progressSteps);
+    const currentStep = useSelector(state => state.order.currentStep);
+    const dispatch = useDispatch();
     return (
         <Container>
             <h1>Place Order</h1>
@@ -16,26 +16,21 @@ function ShoppingCart() {
                     return (
                         <ProgressBar
                             striped
+                            className={step.id <= currentStep ? "progress_bar done" : "progress_bar"}
                             now={100 / 3}
-                            key={step.step}
+                            key={step.id}
                             label={step.label}
-                            style={{
-                                background: step.done ? '#ffc107' : '#eeee',
-                                color: '#000'
-                            }}
                         />
                     )
                 })}
             </ProgressBar>
-            <Container style={{paddingTop: '50px'}}>
+            <Container className="checkout_form">
                 <Button
-                    onClick={() => dispatch(prevProgressStep())}
-                    style={{
-                        display: currentStep < 2 || currentStep >3 ? 'none' : 'inherit',
-                        background: 'transparent',
-                        color: '#000',
-                        border: 'none'
+                    className={{
+                        "progress_bar_prev": true,
+                        "hide": currentStep < 2 || currentStep > 3
                     }}
+                    onClick={() => dispatch(prevProgressStep())}
                 >&larr; Prev step</Button>
                 <MultipleForm/>
             </Container>
@@ -43,4 +38,4 @@ function ShoppingCart() {
     )
 }
 
-export default ShoppingCart
+export default PlaceOrder;
